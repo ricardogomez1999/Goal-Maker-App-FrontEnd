@@ -22,7 +22,6 @@ export default function AddExpenseModal() {
     register,
     handleSubmit,
     formState: { errors },
-    reset,
   } = useForm({ defaultValues: initialValues });
 
   const handleCreateExpense = () => {};
