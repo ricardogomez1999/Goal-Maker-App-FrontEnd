@@ -6,6 +6,7 @@ import CreateFinanceMenu from "../components/Finances/FinancesComponents/CreateF
 import LatestTransactions from "../components/Finances/LatestTransactions";
 import MonthlyExpensesChart from "../components/Finances/MonthlyExpensesChart";
 import MonthlyIncomesChart from "../components/Finances/MonthlyIncomesChart";
+import TransactionsModal from "../components/Finances/TransactionsModal";
 
 export default function FinanceView() {
   return (
@@ -39,6 +40,7 @@ export default function FinanceView() {
       </div>
       <AddExpenseModal />
       <AddIncomeModal />
+      <TransactionsModal />
     </>
   );
 }

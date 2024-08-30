@@ -12,8 +12,8 @@ export default function AddExpenseModal() {
   const navigate = useNavigate();
   const location = useLocation();
   const queryParams = new URLSearchParams(location.search);
-  const modalTaks = queryParams.get("newExpense");
-  const show = modalTaks ? true : false;
+  const modalExpense = queryParams.get("newExpense");
+  const show = modalExpense ? true : false;
 
   const initialValues: expenseFormData = {
     name: "",
@@ -35,19 +35,31 @@ export default function AddExpenseModal() {
     onError: (error) => {
       toast.error(error.message);
     },
-    onSuccess: (data) => {
-      queryClient.invalidateQueries({ queryKey: ["expensesByDateRange"] });
-      queryClient.invalidateQueries({ queryKey: ["spentThisMonth"] });
-      queryClient.invalidateQueries({ queryKey: ["latestTransactions"] });
-      queryClient.invalidateQueries({ queryKey: ["expensesByCategory"] });
-      toast.success(data);
-      reset();
-      navigate(location.pathname, { replace: true });
-    },
   });
 
-  const handleCreateExpense = (formData: expenseFormData) => {
-    mutate(formData);
+  const handleCreateExpense = (formData: expenseFormData, action: string) => {
+    if (action === "add expense") {
+      mutate(formData, {
+        onSuccess: () => {
+          queryClient.invalidateQueries({ queryKey: ["expensesByDateRange"] });
+          queryClient.invalidateQueries({ queryKey: ["latestTransactions"] });
+          queryClient.invalidateQueries({ queryKey: ["expensesByCategory"] });
+          queryClient.invalidateQueries({ queryKey: ["spentThisMonth"] });
+          reset(), toast.success("Income added, you can add another one");
+          navigate(location.pathname, { replace: true });
+        },
+      });
+    } else if (action === "add other expense") {
+      mutate(formData, {
+        onSuccess: () => {
+          queryClient.invalidateQueries({ queryKey: ["expensesByDateRange"] });
+          queryClient.invalidateQueries({ queryKey: ["latestTransactions"] });
+          queryClient.invalidateQueries({ queryKey: ["expensesByCategory"] });
+          queryClient.invalidateQueries({ queryKey: ["spentThisMonth"] });
+          reset(), toast.success("Income added, you can add another one");
+        },
+      });
+    }
   };
   return (
     <>
@@ -97,7 +109,12 @@ export default function AddExpenseModal() {
                   <form
                     className=" mt-10 space-y-3"
                     noValidate
-                    onSubmit={handleSubmit(handleCreateExpense)}
+                    onSubmit={(e) => {
+                      const action = (e.nativeEvent as any).submitter.value;
+                      handleSubmit((data) => handleCreateExpense(data, action))(
+                        e
+                      );
+                    }}
                   >
                     <TransactionForm
                       register={register}
@@ -108,12 +125,14 @@ export default function AddExpenseModal() {
                       <input
                         type="submit"
                         className=" bg-nice-red w-full p-3 text-white uppercase font-bold cursor-pointer"
-                        value="save expense"
+                        value="add expense"
+                        name="action"
                       />
                       <input
                         type="submit"
                         className=" bg-white w-full text-nice-black p-3 uppercase font-bold cursor-pointer border-nice-black border"
                         value="add other expense"
+                        name="action"
                       />
                     </div>
                   </form>

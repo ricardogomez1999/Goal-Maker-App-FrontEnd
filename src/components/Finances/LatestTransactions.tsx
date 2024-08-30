@@ -1,8 +1,10 @@
 import { useQuery } from "@tanstack/react-query";
 import { getLatestTransactions } from "../../api/FinancesAPI";
 import TransactionTableRow from "./FinancesComponents/TransactionTableRow";
+import { useNavigate } from "react-router-dom";
 
 export default function LatestTransactions() {
+  const navigate = useNavigate();
   const { data, isLoading } = useQuery({
     queryKey: ["latestTransactions"],
     queryFn: () => getLatestTransactions(),
@@ -12,7 +14,13 @@ export default function LatestTransactions() {
     <div className="rounded-lg shadow-md h-full p-4">
       <div className=" flex w-full justify-between text-nice-red h-1/6">
         <h1 className=" font-bold text-xl">Latest transactions</h1>
-        <button>see all</button>
+        <button
+          onClick={() =>
+            navigate(location.pathname + "?transactionsComplete=true")
+          }
+        >
+          see all
+        </button>
       </div>
       <div className="mt-2 overflow-x-hidden max-h-40">
         {isLoading ? (

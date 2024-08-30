@@ -12,8 +12,8 @@ export default function AddIncomeModal() {
   const navigate = useNavigate();
   const location = useLocation();
   const queryParams = new URLSearchParams(location.search);
-  const modalTaks = queryParams.get("newIncome");
-  const show = modalTaks ? true : false;
+  const modalIncome = queryParams.get("newIncome");
+  const show = modalIncome ? true : false;
 
   const initialValues: expenseFormData = {
     name: "",
@@ -35,18 +35,29 @@ export default function AddIncomeModal() {
     onError: (error) => {
       toast.error(error.message);
     },
-    onSuccess: (data) => {
-      queryClient.invalidateQueries({ queryKey: ["incomeByDateRange"] });
-      queryClient.invalidateQueries({ queryKey: ["latestTransactions"] });
-      queryClient.invalidateQueries({ queryKey: ["incomesByCategory"] });
-      toast.success(data);
-      reset();
-      navigate(location.pathname, { replace: true });
-    },
   });
 
-  const handleCreateIncome = (formData: incomeFormData) => {
-    mutate(formData);
+  const handleCreateIncome = (formData: incomeFormData, action: string) => {
+    if (action === "add income") {
+      mutate(formData, {
+        onSuccess: () => {
+          queryClient.invalidateQueries({ queryKey: ["incomeByDateRange"] });
+          queryClient.invalidateQueries({ queryKey: ["latestTransactions"] });
+          queryClient.invalidateQueries({ queryKey: ["incomesByCategory"] });
+          reset(), toast.success("Income added, you can add another one");
+          navigate(location.pathname, { replace: true });
+        },
+      });
+    } else if (action === "add other income") {
+      mutate(formData, {
+        onSuccess: () => {
+          queryClient.invalidateQueries({ queryKey: ["incomeByDateRange"] });
+          queryClient.invalidateQueries({ queryKey: ["latestTransactions"] });
+          queryClient.invalidateQueries({ queryKey: ["incomesByCategory"] });
+          reset(), toast.success("Income added, you can add another one");
+        },
+      });
+    }
   };
   return (
     <>
@@ -91,12 +102,17 @@ export default function AddIncomeModal() {
 
                   <p className="text-xl text-center">
                     Fill out the form to {""}
-                    <span className="text-nice-red">add an income</span>
+                    <span className="text-nice-green">add an income</span>
                   </p>
                   <form
                     className=" mt-10 space-y-3"
                     noValidate
-                    onSubmit={handleSubmit(handleCreateIncome)}
+                    onSubmit={(e) => {
+                      const action = (e.nativeEvent as any).submitter.value;
+                      handleSubmit((data) => handleCreateIncome(data, action))(
+                        e
+                      );
+                    }}
                   >
                     <TransactionForm
                       register={register}
@@ -106,13 +122,15 @@ export default function AddIncomeModal() {
                     <div className=" flex gap-3">
                       <input
                         type="submit"
-                        className=" bg-nice-red w-full p-3 text-white uppercase font-bold cursor-pointer"
-                        value="save expense"
+                        className=" bg-nice-green w-full p-3 text-white uppercase font-bold cursor-pointer"
+                        value="add income"
+                        name="action"
                       />
                       <input
                         type="submit"
                         className=" bg-white w-full text-nice-black p-3 uppercase font-bold cursor-pointer border-nice-black border"
-                        value="add other expense"
+                        value="add other income"
+                        name="action"
                       />
                     </div>
                   </form>
