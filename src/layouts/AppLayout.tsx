@@ -3,6 +3,8 @@ import RightBanner from "../components/RightBanner";
 import SearchBar from "../components/SearchBar";
 import { BellIcon } from "@heroicons/react/24/outline";
 import NavMenu from "../components/NavMenu";
+import "react-toastify/dist/ReactToastify.css";
+import { ToastContainer } from "react-toastify";
 
 export default function AppLayout() {
   return (
@@ -20,6 +22,17 @@ export default function AppLayout() {
       <main className="flex fixed left-40 top-20 bottom-0 h-auto right-0 m-auto justify-center p-10">
         <Outlet />
       </main>
+      <ToastContainer
+        pauseOnHover={false}
+        pauseOnFocusLoss={false}
+        autoClose={5000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        draggable
+        theme="light"
+      />
     </div>
   );
 }

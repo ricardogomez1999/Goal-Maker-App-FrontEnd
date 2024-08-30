@@ -3,16 +3,16 @@ import { Dialog, Transition } from "@headlessui/react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { expenseFormData } from "../../Types";
+import { expenseFormData, incomeFormData } from "../../Types";
 import TransactionForm from "./FinancesComponents/TransactionForm";
-import { createExpense } from "../../api/FinancesAPI";
+import { createIncome } from "../../api/FinancesAPI";
 import { toast } from "react-toastify";
 
-export default function AddExpenseModal() {
+export default function AddIncomeModal() {
   const navigate = useNavigate();
   const location = useLocation();
   const queryParams = new URLSearchParams(location.search);
-  const modalTaks = queryParams.get("newExpense");
+  const modalTaks = queryParams.get("newIncome");
   const show = modalTaks ? true : false;
 
   const initialValues: expenseFormData = {
@@ -31,22 +31,21 @@ export default function AddExpenseModal() {
   const queryClient = useQueryClient();
 
   const { mutate } = useMutation({
-    mutationFn: createExpense,
+    mutationFn: createIncome,
     onError: (error) => {
       toast.error(error.message);
     },
     onSuccess: (data) => {
-      queryClient.invalidateQueries({ queryKey: ["expensesByDateRange"] });
-      queryClient.invalidateQueries({ queryKey: ["spentThisMonth"] });
+      queryClient.invalidateQueries({ queryKey: ["incomeByDateRange"] });
       queryClient.invalidateQueries({ queryKey: ["latestTransactions"] });
-      queryClient.invalidateQueries({ queryKey: ["expensesByCategory"] });
+      queryClient.invalidateQueries({ queryKey: ["incomesByCategory"] });
       toast.success(data);
       reset();
       navigate(location.pathname, { replace: true });
     },
   });
 
-  const handleCreateExpense = (formData: expenseFormData) => {
+  const handleCreateIncome = (formData: incomeFormData) => {
     mutate(formData);
   };
   return (
@@ -87,22 +86,22 @@ export default function AddExpenseModal() {
                     as="h3"
                     className="font-bold text-4xl text-center  my-5"
                   >
-                    Add Expense
+                    Add Income
                   </Dialog.Title>
 
                   <p className="text-xl text-center">
                     Fill out the form to {""}
-                    <span className="text-nice-red">add an expense</span>
+                    <span className="text-nice-red">add an income</span>
                   </p>
                   <form
                     className=" mt-10 space-y-3"
                     noValidate
-                    onSubmit={handleSubmit(handleCreateExpense)}
+                    onSubmit={handleSubmit(handleCreateIncome)}
                   >
                     <TransactionForm
                       register={register}
                       errors={errors}
-                      type={"expense"}
+                      type={"income"}
                     />
                     <div className=" flex gap-3">
                       <input

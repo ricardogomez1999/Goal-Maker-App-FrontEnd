@@ -3,6 +3,8 @@ import {
   dashBoardBudget,
   dashBoardExpenseSchema,
   dashBoardIncomesSchema,
+  expenseFormData,
+  incomeFormData,
   transactionsSchema,
 } from "../Types";
 import api from "../lib/axios";
@@ -38,6 +40,17 @@ export async function getTodaysIncomes() {
         (activity) => formatDate(activity.createdAt) === today.toString()
       );
     }
+  } catch (error) {
+    if (isAxiosError(error) && error.response) {
+      throw new Error(error.response.data.error);
+    }
+  }
+}
+
+export async function createExpense(formData: expenseFormData) {
+  try {
+    const { data } = await api.post("/financials/expense", formData);
+    return data;
   } catch (error) {
     if (isAxiosError(error) && error.response) {
       throw new Error(error.response.data.error);
@@ -119,6 +132,17 @@ export const getIncomesByDateRange = async (
     }
   }
 };
+
+export async function createIncome(formData: incomeFormData) {
+  try {
+    const { data } = await api.post("/financials/income", formData);
+    return data;
+  } catch (error) {
+    if (isAxiosError(error) && error.response) {
+      throw new Error(error.response.data.error);
+    }
+  }
+}
 
 export const getBudget = async () => {
   try {

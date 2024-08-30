@@ -1,4 +1,5 @@
 import AddExpenseModal from "../components/Finances/AddExpenseModal";
+import AddIncomeModal from "../components/Finances/AddIncomeModal";
 import FinanceOverview from "../components/Finances/FinanceOverview";
 import FinancesBudget from "../components/Finances/FinancesBudget";
 import CreateFinanceMenu from "../components/Finances/FinancesComponents/CreateFinanceMenu";
@@ -37,6 +38,7 @@ export default function FinanceView() {
         <CreateFinanceMenu />
       </div>
       <AddExpenseModal />
+      <AddIncomeModal />
     </>
   );
 }

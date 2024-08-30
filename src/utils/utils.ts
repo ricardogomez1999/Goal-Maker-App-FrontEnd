@@ -71,3 +71,22 @@ export function getDateRange(rangeType: string): {
     endDate: endDate.toISOString(),
   };
 }
+
+export const expenseCategories = {
+  food: "Food",
+  internet: "Internet",
+  health: "Health",
+  transportation: "Transportation",
+  pets: "Pets",
+  house: "House",
+  savings: "Savings",
+  others: "Others",
+};
+
+export const incomesCategories = {
+  salary: "salary",
+  savings: "Savings",
+  others: "Others",
+  bonuses: "Bonuses",
+  interests: "interests",
+};
