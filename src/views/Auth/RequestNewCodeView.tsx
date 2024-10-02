@@ -36,11 +36,11 @@ export default function RequestNewCodeView() {
   return (
     <>
       <h1 className="text-3xl font-bold text-nice-black">
-        Solicitar Código de Confirmación
+        Request new confirmation code
       </h1>
       <p className="text-xl font-light text-nice-black mt-5">
-        Coloca tu e-mail para recibir {""}
-        <span className=" text-nice-red font-bold"> un nuevo código</span>
+        Enter a valid email address{""}
+        <span className=" text-nice-red font-bold"> to get your new code</span>
       </p>
 
       <form
@@ -55,13 +55,13 @@ export default function RequestNewCodeView() {
           <input
             id="email"
             type="email"
-            placeholder="Email de Registro"
+            placeholder="Registered email"
             className="w-full p-3 rounded-lg border-gray-300 border"
             {...register("email", {
-              required: "El Email de registro es obligatorio",
+              required: "Registered email",
               pattern: {
                 value: /\S+@\S+\.\S+/,
-                message: "E-mail no válido",
+                message: "Not valid email",
               },
             })}
           />
@@ -70,7 +70,7 @@ export default function RequestNewCodeView() {
 
         <input
           type="submit"
-          value="Enviar Código"
+          value="Send code"
           className="bg-nice-red w-full p-3 rounded-lg text-white font-bold  text-xl cursor-pointer"
         />
       </form>
