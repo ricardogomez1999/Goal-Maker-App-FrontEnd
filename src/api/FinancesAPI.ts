@@ -171,6 +171,7 @@ export const getExpensesByCategory = async (
       },
     });
     const response = categoryChartData.safeParse(data);
+    console.log(response);
 
     if (response.success) {
       return response.data;
