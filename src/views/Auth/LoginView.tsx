@@ -22,8 +22,8 @@ export default function LoginView() {
     onError: (error) => {
       toast.error(error.message);
     },
-    onSuccess: (data) => {
-      toast.success(data);
+    onSuccess: () => {
+      toast.success("Logging in");
     },
   });
 
@@ -60,7 +60,7 @@ export default function LoginView() {
 
           <input
             type="password"
-            placeholder="Registered passoword"
+            placeholder="Registered password"
             className="w-full p-3  border-gray-300 border"
             {...register("password", {
               required: "The password is mandatory",
