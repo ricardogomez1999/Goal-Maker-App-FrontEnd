@@ -98,6 +98,7 @@ export type transactionsType = Pick<
 >;
 export type expenseFormData = Pick<expense, "category" | "name" | "quantity">;
 export type incomeFormData = Pick<expense, "category" | "name" | "quantity">;
+export type budgetFormData = Pick<expense, "quantity">;
 
 export const incomeSchema = z.object({
   _id: z.string(),

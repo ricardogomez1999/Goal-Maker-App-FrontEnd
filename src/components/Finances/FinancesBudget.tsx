@@ -3,8 +3,10 @@ import "react-circular-progressbar/dist/styles.css";
 import { useQuery } from "@tanstack/react-query";
 import { getBudget, getThisMonthsExpenses } from "../../api/FinancesAPI";
 import { formatCurrency } from "../../utils/utils";
+import { useNavigate } from "react-router-dom";
 
 export default function FinancesBudget() {
+  const navigate = useNavigate();
   const { data: spentData, isLoading: spentLoading } = useQuery({
     queryKey: ["spentThisMonth"],
     queryFn: () => getThisMonthsExpenses(),
@@ -13,6 +15,7 @@ export default function FinancesBudget() {
     queryKey: ["getBudget"],
     queryFn: () => getBudget(),
   });
+
   const budget = budgetData?.reduce(
     (total, budget) => total + budget.quantity,
     0
@@ -21,7 +24,19 @@ export default function FinancesBudget() {
   const spent = spentData?.reduce((total, spent) => total + spent.quantity, 0)!;
 
   const budgetLeftPercentage = (spent * 100) / budget;
-  return (
+  return budgetData?.length === 0 ? (
+    <div className="row-span-1 rounded-lg shadow-md flex justify-between h-full items-center">
+      <div className=" flex flex-col gap-4 h-full w-full justify-center text-center">
+        <p className=" text-nice-black">No budget has been set up yet</p>
+        <button
+          className=" text-nice-red text-sm"
+          onClick={() => navigate(location.pathname + "?newBudget=true")}
+        >
+          Click here to set up a budget
+        </button>
+      </div>
+    </div>
+  ) : (
     <div className="row-span-1 rounded-lg shadow-md flex justify-between h-full items-center">
       <div className=" flex justify-center w-1/4 h-5/6 mx-auto">
         <CircularProgressbar

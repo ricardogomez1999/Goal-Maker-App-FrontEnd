@@ -1,3 +1,4 @@
+import AddBudgetModal from "../components/Finances/AddBudgetModal";
 import AddExpenseModal from "../components/Finances/AddExpenseModal";
 import AddIncomeModal from "../components/Finances/AddIncomeModal";
 import FinanceOverview from "../components/Finances/FinanceOverview";
@@ -41,6 +42,7 @@ export default function FinanceView() {
       <AddExpenseModal />
       <AddIncomeModal />
       <TransactionsModal />
+      <AddBudgetModal />
     </>
   );
 }

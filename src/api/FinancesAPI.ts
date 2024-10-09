@@ -1,4 +1,5 @@
 import {
+  budgetFormData,
   categoryChartData,
   dashBoardBudget,
   dashBoardExpenseSchema,
@@ -152,6 +153,18 @@ export const getBudget = async () => {
     if (response.success) {
       return response.data;
     }
+  } catch (error) {
+    if (isAxiosError(error) && error.response) {
+      throw new Error(error.response.data.error);
+    }
+  }
+};
+
+export const setUpBudget = async (formData: budgetFormData) => {
+  try {
+    const { data } = await api.post("/financials/budget", formData);
+
+    return data;
   } catch (error) {
     if (isAxiosError(error) && error.response) {
       throw new Error(error.response.data.error);
