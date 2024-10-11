@@ -5,8 +5,10 @@ import {
   ForgotPasswordForm,
   NewPasswordForm,
   RequestConfirmationCodeForm,
+  User,
   UserLoginForm,
   UserRegistrationForm,
+  userSchema,
 } from "../Types";
 
 export async function createAccount(formData: UserRegistrationForm) {
@@ -113,6 +115,21 @@ export async function resetPassword({
     const { data } = await api.post<string>(url, formData);
 
     return data;
+  } catch (error) {
+    if (isAxiosError(error) && error.message) {
+      throw new Error(error.response?.data.error);
+    }
+  }
+}
+
+export async function getUser() {
+  try {
+    const { data } = await api<User>("auth/user");
+    const response = userSchema.safeParse(data);
+
+    if (response.success) {
+      return response.data;
+    }
   } catch (error) {
     if (isAxiosError(error) && error.message) {
       throw new Error(error.response?.data.error);

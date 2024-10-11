@@ -1,12 +1,13 @@
 import { useForm } from "react-hook-form";
 import ErrorMessage from "../../components/ErrorMessage";
 import { UserLoginForm } from "../../Types";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useMutation } from "@tanstack/react-query";
 import { logIn } from "../../api/AuthAPI";
 import { toast } from "react-toastify";
 
 export default function LoginView() {
+  const navigate = useNavigate();
   const initialValues: UserLoginForm = {
     email: "",
     password: "",
@@ -24,6 +25,7 @@ export default function LoginView() {
     },
     onSuccess: () => {
       toast.success("Logging in");
+      navigate("/");
     },
   });
 

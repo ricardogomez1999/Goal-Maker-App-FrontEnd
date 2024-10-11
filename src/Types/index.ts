@@ -130,3 +130,15 @@ export const dashBoardBudget = z.array(
     quantity: true,
   })
 );
+
+//user
+export const userSchema = authSchema
+  .pick({
+    name: true,
+    email: true,
+  })
+  .extend({
+    _id: z.string(),
+  });
+
+export type User = z.infer<typeof userSchema>;

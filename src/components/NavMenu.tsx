@@ -1,19 +1,38 @@
 import { Popover, PopoverButton, PopoverPanel } from "@headlessui/react";
 import { ChevronDownIcon } from "@heroicons/react/20/solid";
+import { User } from "../Types";
+import { useQueryClient } from "@tanstack/react-query";
 
-export default function NavMenu() {
+type NavMenuProps = {
+  user: User;
+  isLoading: boolean;
+  isError: boolean;
+};
+
+export default function NavMenu({ user, isLoading }: NavMenuProps) {
+  const queryClient = useQueryClient();
+
+  const logout = () => {
+    localStorage.removeItem("AUTH_TOKEN");
+    queryClient.invalidateQueries({ queryKey: ["user"] });
+  };
+
   return (
     <Popover className="relative flex ">
-      <PopoverButton className=" group flex justify-center items-center gap-3 p-2 h-auto focus:outline-none">
-        <img src="/userLogo.svg" alt="user logo" />
-        <div className=" text-nice-black font-bold leading-none">
-          <p className=" mb-0">Mary</p>
-          <p className=" text-textGray font-normal mt-0 text-sm">User</p>
-        </div>
-        <div className=" border-2 rounded-full border-textGray w-5">
-          <ChevronDownIcon className="group-data-[open]:rotate-180 transition-all" />
-        </div>
-      </PopoverButton>
+      {isLoading ? (
+        <p>Loading...</p>
+      ) : (
+        <PopoverButton className=" group flex justify-center items-center gap-3 p-2 h-auto focus:outline-none">
+          <img src="/userLogo.svg" alt="user logo" />
+          <div className=" text-nice-black font-bold leading-none">
+            <p className=" mb-0">{user.name.split(" ")[0]}</p>
+            <p className=" text-textGray font-normal mt-0 text-sm">User</p>
+          </div>
+          <div className=" border-2 rounded-full border-textGray w-5">
+            <ChevronDownIcon className="group-data-[open]:rotate-180 transition-all" />
+          </div>
+        </PopoverButton>
+      )}
 
       <PopoverPanel
         anchor={{ to: "bottom", gap: "30px" }}
@@ -23,9 +42,9 @@ export default function NavMenu() {
         <a href="#">My profile</a>
         <a href="#">Security</a>
         <a href="#">Settings</a>
-        <a href="#" className=" text-nice-orange">
+        <button className=" text-nice-orange" onClick={logout}>
           Log Out
-        </a>
+        </button>
       </PopoverPanel>
     </Popover>
   );
