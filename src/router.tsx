@@ -2,7 +2,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import AppLayout from "./layouts/AppLayout";
 import DashBoardView from "./views/DashBoardView";
 import FinanceView from "./views/FinanceView";
-import HealthView from "./views/Health/HealthView";
+import HealthView from "./views/HealthView";
 import ReportsView from "./views/Reports/ReportsView";
 import AuthLayout from "./layouts/AuthLayout";
 import LoginView from "./views/Auth/LoginView";

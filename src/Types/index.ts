@@ -46,6 +46,12 @@ export const foodSchema = z.object({
   createdAt: z.string(),
 });
 
+export type Food = z.infer<typeof foodSchema>;
+export type FoodTableRow = Pick<
+  Food,
+  "calories" | "createdAt" | "foodName" | "_id"
+>;
+
 export const dashBoardFoodSchema = z.array(
   foodSchema.pick({
     _id: true,
