@@ -1,21 +1,21 @@
-import { FoodTableRow } from "../../../Types";
+import { TableRowType } from "../../../Types";
 import { formatDate } from "../../../utils/utils";
 
 type TableCardProps = {
-  food: FoodTableRow;
+  row: TableRowType;
 };
 
-export default function TableRow({ food }: TableCardProps) {
+export default function TableRow({ row }: TableCardProps) {
   return (
-    <tr key={food._id}>
+    <tr key={row._id}>
       <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 capitalize">
-        {food.foodName}
+        {row.name}
       </td>
       <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-        {formatDate(food.createdAt)}
+        {formatDate(row.createdAt)}
       </td>
       <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-        {food.calories} cal
+        {row.calories} cal
       </td>
     </tr>
   );

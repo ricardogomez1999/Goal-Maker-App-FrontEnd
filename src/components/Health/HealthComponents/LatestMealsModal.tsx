@@ -2,26 +2,26 @@ import { Fragment } from "react";
 import { Dialog, Transition } from "@headlessui/react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
-import { FoodTableRow } from "../../../Types";
+import { TableRowType } from "../../../Types";
 import TableRow from "./TableRow";
-import { getTodaysMeals } from "../../../api/HealthAPI";
+import { getAllMeals } from "../../../api/HealthAPI";
 
 export default function LatestMealsModal() {
   const navigate = useNavigate();
   const location = useLocation();
   const queryParams = new URLSearchParams(location.search);
-  const modalTransaction = queryParams.get("transactionsComplete");
+  const modalTransaction = queryParams.get("mealsComplete");
   const show = modalTransaction ? true : false;
 
   const { data, isLoading } = useQuery({
-    queryKey: ["latestFoodModal"],
-    queryFn: () => getTodaysMeals(),
+    queryKey: ["allRegisteredMeals"],
+    queryFn: () => getAllMeals(),
   });
 
-  const exportToCSV = (foods: FoodTableRow[]) => {
+  const exportToCSV = (foods: TableRowType[]) => {
     const headers = ["Name", "Date", "Amount"];
     const rows = foods.map((food) => [
-      food.foodName,
+      food.name,
       new Date(food.createdAt).toLocaleDateString(),
       food.calories,
     ]);
@@ -79,7 +79,7 @@ export default function LatestMealsModal() {
                     className="font-bold text-4xl text-center my-5 flex justify-between"
                   >
                     <p>
-                      This months {""}
+                      All registered{""}
                       <span className="text-nice-red">meals</span>
                     </p>
 
@@ -111,7 +111,7 @@ export default function LatestMealsModal() {
                         </thead>
                         <tbody className="bg-white divide-y divide-gray-200">
                           {data?.map((food) => (
-                            <TableRow key={food._id} food={food} />
+                            <TableRow key={food._id} row={food} />
                           ))}
                         </tbody>
                       </table>

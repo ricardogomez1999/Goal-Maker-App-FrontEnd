@@ -1,4 +1,8 @@
-import { dashBoardActivitySchema, dashBoardFoodSchema } from "../Types";
+import {
+  dashBoardActivitySchema,
+  dashBoardFoodSchema,
+  healthFormData,
+} from "../Types";
 import api from "../lib/axios";
 import { isAxiosError } from "axios";
 import { formatDate } from "../utils/utils";
@@ -62,6 +66,30 @@ export async function getTodaysMeals() {
         (meal) => formatDate(meal.createdAt) === today.toString()
       );
     }
+  } catch (error) {
+    if (isAxiosError(error) && error.response) {
+      throw new Error(error.response.data.error);
+    }
+  }
+}
+
+export async function createMeal(formData: healthFormData) {
+  try {
+    const { data } = await api.post("/health/food", formData);
+
+    return data;
+  } catch (error) {
+    if (isAxiosError(error) && error.response) {
+      throw new Error(error.response.data.error);
+    }
+  }
+}
+
+export async function createActivity(formData: healthFormData) {
+  try {
+    const { data } = await api.post("/health/activity", formData);
+
+    return data;
   } catch (error) {
     if (isAxiosError(error) && error.response) {
       throw new Error(error.response.data.error);

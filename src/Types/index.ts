@@ -23,7 +23,7 @@ export type NewPasswordForm = Pick<Auth, "password" | "password_confirmation">;
 
 export const activitySchema = z.object({
   _id: z.string(),
-  activityName: z.string(),
+  name: z.string(),
   calories: z.number(),
   createdAt: z.string(),
 });
@@ -31,7 +31,7 @@ export const activitySchema = z.object({
 export const dashBoardActivitySchema = z.array(
   activitySchema.pick({
     _id: true,
-    activityName: true,
+    name: true,
     calories: true,
     createdAt: true,
   })
@@ -41,21 +41,23 @@ export const dashBoardActivitySchema = z.array(
 
 export const foodSchema = z.object({
   _id: z.string(),
-  foodName: z.string(),
+  name: z.string(),
   calories: z.number(),
   createdAt: z.string(),
 });
 
 export type Food = z.infer<typeof foodSchema>;
-export type FoodTableRow = Pick<
+export type TableRowType = Pick<
   Food,
-  "calories" | "createdAt" | "foodName" | "_id"
+  "calories" | "createdAt" | "name" | "_id"
 >;
+
+export type healthFormData = Pick<Food, "calories" | "createdAt" | "name">;
 
 export const dashBoardFoodSchema = z.array(
   foodSchema.pick({
     _id: true,
-    foodName: true,
+    name: true,
     calories: true,
     createdAt: true,
   })

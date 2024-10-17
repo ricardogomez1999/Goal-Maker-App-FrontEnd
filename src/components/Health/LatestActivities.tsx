@@ -1,21 +1,23 @@
 import { useQuery } from "@tanstack/react-query";
 import { useNavigate } from "react-router-dom";
 import TableRow from "./HealthComponents/TableRow";
-import { getTodaysMeals } from "../../api/HealthAPI";
+import { getTodaysActivities } from "../../api/HealthAPI";
 
-export default function LatestMeals() {
+export default function LatestActivities() {
   const navigate = useNavigate();
   const { data, isLoading } = useQuery({
-    queryKey: ["latestFoodModal"],
-    queryFn: () => getTodaysMeals(),
+    queryKey: ["latestActivities"],
+    queryFn: () => getTodaysActivities(),
   });
 
   return (
     <div className="rounded-lg shadow-md h-full  p-4">
       <div className=" flex w-full justify-between text-nice-red h-1/6">
-        <h1 className=" font-bold text-xl">Latest Meals</h1>
+        <h1 className=" font-bold text-xl">Latest Activities</h1>
         <button
-          onClick={() => navigate(location.pathname + "?mealsComplete=true")}
+          onClick={() =>
+            navigate(location.pathname + "?transactionsComplete=true")
+          }
         >
           see all
         </button>
@@ -39,8 +41,8 @@ export default function LatestMeals() {
               </tr>
             </thead>
             <tbody className="bg-white divide-y divide-gray-200">
-              {data?.map((food) => (
-                <TableRow key={food._id} row={food} />
+              {data?.map((activity) => (
+                <TableRow key={activity._id} row={activity} />
               ))}
             </tbody>
           </table>
