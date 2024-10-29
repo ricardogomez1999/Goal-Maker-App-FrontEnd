@@ -2,6 +2,7 @@ import { Popover, PopoverButton, PopoverPanel } from "@headlessui/react";
 import { ChevronDownIcon } from "@heroicons/react/20/solid";
 import { User } from "../Types";
 import { useQueryClient } from "@tanstack/react-query";
+import { Link } from "react-router-dom";
 
 type NavMenuProps = {
   user: User;
@@ -39,9 +40,8 @@ export default function NavMenu({ user, isLoading }: NavMenuProps) {
         className="flex origin-top flex-col transition duration-200 ease-out w-40 bg-white p-3 text-center shadow-lg rounded-md data-[closed]:scale-95 data-[closed]:opacity-0"
         transition
       >
-        <a href="#">My profile</a>
-        <a href="#">Security</a>
-        <a href="#">Settings</a>
+        <Link to="/profile">My profile</Link>
+        <Link to="/settings">Settings</Link>
         <button className=" text-nice-orange" onClick={logout}>
           Log Out
         </button>

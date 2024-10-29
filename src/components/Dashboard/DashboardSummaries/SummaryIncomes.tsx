@@ -19,7 +19,7 @@ export default function SummaryIncomes() {
 
   if (data)
     return (
-      <div className="flex justify-center items-around py-3 px-8 border border-none rounded-lg shadow-md bg-gradient-to-r from-nice-red to-nice-pink h-28">
+      <div className="flex justify-center items-around py-3 px-8 border border-none rounded-lg shadow-md bg-gradient-to-r from-nice-red to-nice-pink h-1/2">
         <div className="flex flex-col w-2/3 justify-center">
           <h1 className=" font-normal text-white text-2xl">
             {formatCurrency(totalIncomes)}
