@@ -37,32 +37,6 @@ export const dashBoardActivitySchema = z.array(
   })
 );
 
-// food
-
-export const foodSchema = z.object({
-  _id: z.string(),
-  name: z.string(),
-  calories: z.number(),
-  createdAt: z.string(),
-});
-
-export type Food = z.infer<typeof foodSchema>;
-export type TableRowType = Pick<
-  Food,
-  "calories" | "createdAt" | "name" | "_id"
->;
-
-export type healthFormData = Pick<Food, "calories" | "createdAt" | "name">;
-
-export const dashBoardFoodSchema = z.array(
-  foodSchema.pick({
-    _id: true,
-    name: true,
-    calories: true,
-    createdAt: true,
-  })
-);
-
 // Expenses
 
 export const expenseSchema = z.object({
@@ -150,3 +124,5 @@ export const userSchema = authSchema
   });
 
 export type User = z.infer<typeof userSchema>;
+
+export type userFormData = Pick<User, "name" | "email">;

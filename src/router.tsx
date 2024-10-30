@@ -10,6 +10,7 @@ import ConfirmAccountView from "./views/Auth/ConfirmAccountView";
 import RequestNewCodeView from "./views/Auth/RequestNewCodeView";
 import ForgotPasswordView from "./views/Auth/ForgotPasswordView";
 import NewPasswordView from "./views/Auth/NewPasswordView";
+import Profile from "./components/Profile/Profile";
 
 export default function Router() {
   return (
@@ -18,6 +19,7 @@ export default function Router() {
         <Route element={<AppLayout />}>
           <Route path="/" element={<DashBoardView />} />
           <Route path="/finance" element={<FinanceView />} />
+          <Route path="/profile" element={<Profile />} />
         </Route>
 
         <Route element={<AuthLayout />}>
